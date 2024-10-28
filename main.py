@@ -1,28 +1,15 @@
-import math
+from math import *
 import pprint
 
 from matplotlib.pyplot import plot, show
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-def f(x):
-    return 2 * x
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    sampling_length = 0.05
-    cals_per_point = 10
+def approximate_integral(expression: str, xi: int,yi: int,
+                         sampling_length: int, cals_per_point: int,
+                         LB: int, UB: int):
+    f = convert(expression)
     step_length = sampling_length / cals_per_point
 
-    xi, yi = 0.0, 0.0
-    start_point = xi, yi
-
-    domain = -10, 10
+    domain = LB, UB
     sampled_F_after_xi = [yi]
     sampled_F_before_xi = [yi]
 
@@ -58,3 +45,12 @@ if __name__ == '__main__':
         sampled_F_before_xi[0:-1] + sampled_F_after_xi,
     )
     show()
+
+def convert(expression: str):
+    expression = expression.replace('^', '**')
+    return lambda x: eval(expression)
+
+
+# Press the green button in the gutter to run the script.
+if __name__ == '__main__':
+    approximate_integral("cos(x ^ 2)", 0, 0, 0.05, 10, -10, 10)
